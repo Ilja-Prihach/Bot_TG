@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 Int       @id @default(autoincrement())
+  chatId             String    @unique
+  city               String?
+  dailyTime          String?
+  timezone           String    @default("Europe/Minsk")
+  enabledDailyDigest Boolean   @default(false)
+  lastDigestAt       DateTime?
+  sentQuestions      SentQuestion[]
+}
+
+model SentQuestion {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  questionId String
+  sentAt     DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId, sentAt])
+  @@index([questionId])
+}
