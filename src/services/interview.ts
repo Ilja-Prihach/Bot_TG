@@ -6,7 +6,6 @@ import { DateTime } from "luxon";
 export type InterviewQuestion = {
   id: string;
   topic: string;
-  level: "junior" | "middle" | "senior";
   question: string;
   answer: string;
   tags?: string[];
