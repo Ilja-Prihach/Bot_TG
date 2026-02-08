@@ -51,7 +51,7 @@ npm run start
 - `/ask <question>` — ask AI
 
 ## Data
-Interview questions live in `data/questions.json`. Add your own and keep the same schema (id, topic, question, answer, optional tags).
+Interview questions live in `data/questions/*.json`. Add your own and keep the same schema (id, topic, question, answer, optional tags).
 
 ## Notes
 - Timezone defaults to `Europe/Minsk`. You can update it manually in the DB if needed.

@@ -29,7 +29,7 @@ export async function buildDailyDigest(
     console.warn("Weather error", error);
   }
 
-  const questions = await getQuestionsForUser(userId, 3);
+  const questions = await getQuestionsForUser(userId);
   await recordQuestionsSent(
     userId,
     questions.map((q) => q.id)

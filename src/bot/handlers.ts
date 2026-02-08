@@ -117,7 +117,7 @@ export function registerHandlers(bot: Bot<Context>, deps: BotDependencies) {
   bot.command("interview", async (ctx) => {
     const chatId = String(ctx.chat?.id);
     const user = await ensureUser(chatId);
-    const questions = await getQuestionsForUser(user.id, 3);
+    const questions = await getQuestionsForUser(user.id);
     await recordQuestionsSent(
       user.id,
       questions.map((q) => q.id)
