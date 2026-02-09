@@ -1,5 +1,4 @@
 import { DateTime } from "luxon";
-import { AIProvider } from "./ai.js";
 import { WeatherService } from "./weather.js";
 import { getQuestionsForUser, recordQuestionsSent } from "./interview.js";
 import { prisma } from "../db/client.js";
@@ -8,9 +7,7 @@ export async function buildDailyDigest(
   userId: number,
   city: string,
   timezone: string,
-  weatherService: WeatherService,
-  aiProvider: AIProvider | null,
-  enableAiOneLiner: boolean
+  weatherService: WeatherService
 ): Promise<string> {
   const now = DateTime.now().setZone(timezone);
   const header = `\uD83D\uDCC5 ${now.toFormat("dd LLL yyyy")}, ${city}`;
@@ -40,12 +37,6 @@ export async function buildDailyDigest(
     questionLines.push(`\n\u2753 ${q.question}`);
     questionLines.push(`\u2705 ${q.answer}`);
 
-    if (enableAiOneLiner && aiProvider?.oneLiner) {
-      const oneLiner = await aiProvider.oneLiner(q.answer);
-      if (oneLiner) {
-        questionLines.push(`\uD83D\uDCAC ${oneLiner}`);
-      }
-    }
   }
 
   return [header, weatherLine, ...questionLines].join("\n");

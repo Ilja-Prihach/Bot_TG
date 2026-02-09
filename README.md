@@ -1,10 +1,10 @@
 # Telegram Interview Digest Bot
 
-Personal Telegram bot that sends a daily digest with weather + interview Q&A, handles on-demand weather, and answers questions via Gemini.
+Personal Telegram bot that sends a daily digest with weather + interview Q&A and handles on-demand weather.
 
 ## Features
 - Daily digest with weather and 3 interview questions
-- Commands for weather, interview questions, and AI answers
+- Commands for weather and interview questions
 - SQLite storage via Prisma
 - Per-user time and timezone support
 
@@ -12,7 +12,6 @@ Personal Telegram bot that sends a daily digest with weather + interview Q&A, ha
 - Node.js 20+
 - Telegram bot token
 - OpenWeatherMap API key
-- Google Gemini API key (free tier)
 
 ## Setup
 ```bash
@@ -48,11 +47,9 @@ npm run start
 - `/off` — disable daily digest
 - `/weather` — show current weather
 - `/interview` — send 3 random questions
-- `/ask <question>` — ask AI
 
 ## Data
 Interview questions live in `data/questions/*.json`. Add your own and keep the same schema (id, topic, question, answer, optional tags).
 
 ## Notes
 - Timezone defaults to `Europe/Minsk`. You can update it manually in the DB if needed.
-- `AI_DIGEST_LINE=false` disables extra AI one-liners in the daily digest.

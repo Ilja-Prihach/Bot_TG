@@ -1,7 +1,6 @@
 import { loadEnv } from "./utils/env.js";
 import { prisma } from "./db/client.js";
 import { WeatherService } from "./services/weather.js";
-import { GeminiProvider } from "./services/ai.js";
 import { createBot } from "./bot/index.js";
 import cron from "node-cron";
 import { DateTime } from "luxon";
@@ -10,8 +9,7 @@ import { buildDailyDigest, markDigestSent } from "./services/digest.js";
 const env = loadEnv();
 
 const weatherService = new WeatherService(env.WEATHER_API_KEY);
-const aiProvider = new GeminiProvider(env.GEMINI_API_KEY);
-const bot = createBot(env.TELEGRAM_BOT_TOKEN, weatherService, aiProvider);
+const bot = createBot(env.TELEGRAM_BOT_TOKEN, weatherService);
 
 async function processDigestTick() {
   const users = await prisma.user.findMany({
@@ -41,9 +39,7 @@ async function processDigestTick() {
         user.id,
         user.city,
         user.timezone || "Europe/Minsk",
-        weatherService,
-        aiProvider,
-        env.AI_DIGEST_LINE
+        weatherService
       );
       await bot.api.sendMessage(Number(user.chatId), message);
       await markDigestSent(user.id);

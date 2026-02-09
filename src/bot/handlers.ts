@@ -3,11 +3,9 @@ import { prisma } from "../db/client.js";
 import { parseTime } from "../utils/time.js";
 import { WeatherService } from "../services/weather.js";
 import { getQuestionsForUser, recordQuestionsSent } from "../services/interview.js";
-import { AIProvider } from "../services/ai.js";
 
 export type BotDependencies = {
   weatherService: WeatherService;
-  aiProvider: AIProvider;
 };
 
 async function ensureUser(chatId: string) {
@@ -26,8 +24,7 @@ function helpText(): string {
     "/on — включить ежедневный дайджест",
     "/off — выключить ежедневный дайджест",
     "/weather — погода для сохраненного города",
-    "/interview — 3 вопроса с ответами",
-    "/ask <вопрос> — короткий ответ от AI"
+    "/interview — вопросы с ответами"
   ].join("\n");
 }
 
@@ -137,19 +134,5 @@ export function registerHandlers(bot: Bot<Context>, deps: BotDependencies) {
     await ctx.reply(lines.join("\n").trim());
   });
 
-  bot.command("ask", async (ctx) => {
-    const raw = ctx.match?.toString().trim();
-    if (!raw) {
-      await ctx.reply("Укажи вопрос после команды /ask");
-      return;
-    }
-
-    try {
-      const answer = await deps.aiProvider.ask(raw);
-      await ctx.reply(answer.text || "Не удалось получить ответ.");
-    } catch (error) {
-      console.warn("AI error", error);
-      await ctx.reply("Не удалось получить ответ от AI. Попробуй позже.");
-    }
-  });
+  // AI integration removed for now.
 }
