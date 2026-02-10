@@ -43,7 +43,8 @@ const PRIMARY_TOPIC_COUNTS: Record<string, number> = {
   react: 2,
   next: 2,
   fundamentals: 2,
-  javascript: 2
+  javascript: 2,
+  typescript: 2
 };
 
 const DEFAULT_OTHER_TOPIC_COUNT = 1;
