@@ -32,11 +32,24 @@ export async function buildDailyDigest(
     questions.map((q) => q.id)
   );
 
+  const topicLabel = (topic: string) => {
+    const labels: Record<string, string> = {
+      react: "React",
+      next: "Next.js",
+      fundamentals: "Fundamentals",
+      javascript: "JavaScript",
+      typescript: "TypeScript",
+      html: "HTML",
+      css: "CSS",
+      git: "Git"
+    };
+    return labels[topic] ?? topic;
+  };
+
   const questionLines: string[] = [];
   for (const q of questions) {
-    questionLines.push(`\n\u2753 ${q.question}`);
+    questionLines.push(`\n\u2753 [${topicLabel(q.topic)}] ${q.question}`);
     questionLines.push(`\u2705 ${q.answer}`);
-
   }
 
   return [header, weatherLine, ...questionLines].join("\n");

@@ -125,9 +125,23 @@ export function registerHandlers(bot: Bot<Context>, deps: BotDependencies) {
       return;
     }
 
+    const topicLabel = (topic: string) => {
+      const labels: Record<string, string> = {
+        react: "React",
+        next: "Next.js",
+        fundamentals: "Fundamentals",
+        javascript: "JavaScript",
+        typescript: "TypeScript",
+        html: "HTML",
+        css: "CSS",
+        git: "Git"
+      };
+      return labels[topic] ?? topic;
+    };
+
     const lines: string[] = [];
     for (const q of questions) {
-      lines.push(`\n\u2753 ${q.question}`);
+      lines.push(`\n\u2753 [${topicLabel(q.topic)}] ${q.question}`);
       lines.push(`\u2705 ${q.answer}`);
     }
 
